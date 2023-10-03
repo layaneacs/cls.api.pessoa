@@ -20,7 +20,7 @@ namespace cls.api.pessoa.infra
                 DataNascimento = DateTime.Now.AddYears(-21),
                 Email = "pessoa2@admin.com.br",
                 Nome = "ADMIN2",
-                Sobrenome = "PLATAFORMA",
+                Sobrenome = "PLATAFORMA2",
                 Telefone = "24242828"
             }
         };
