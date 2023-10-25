@@ -30,14 +30,14 @@ namespace cls.api.pessoa.infra
             return pessoas;           
         }
 
-        public Pessoa GetBy(Guid id)
+        public Pessoa? GetBy(Guid id)
         {
-            return pessoas.FirstOrDefault(p => p.Id == id) ?? new Pessoa();
+            return pessoas.FirstOrDefault(p => p.Id == id);
         }
 
-        public Pessoa GetBy(string email)
+        public Pessoa? GetBy(string email)
         {
-            return pessoas.FirstOrDefault(p => p.Email == email) ?? new Pessoa();
+            return pessoas.FirstOrDefault(p => p.Email == email);
         }
 
         public Pessoa? Save(Pessoa pessoa)
