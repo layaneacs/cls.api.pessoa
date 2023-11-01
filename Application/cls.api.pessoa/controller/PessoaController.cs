@@ -64,5 +64,53 @@ namespace cls.api.pessoa.controller
             outputValue.Notificacao.AddNotificacao(Guid.NewGuid().ToString(), "Usuário não encotrado.");
             return await Task.FromResult(outputValue);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<PessoaOutput<string>> Delete(string id)
+        {
+            var outputValue = new PessoaOutput<string>();
+
+            if (!Guid.TryParse(id, out Guid idByuser))
+            {
+                outputValue.Notificacao.AddNotificacao(Guid.NewGuid().ToString(), "Id com o formato inválido.");
+                return await Task.FromResult(outputValue);
+            }
+
+            var deleted = _service.Delete(idByuser);
+
+            if (deleted)
+            {
+                outputValue.Data = "Deletado com sucesso";
+                return await Task.FromResult(outputValue);
+            }
+
+            outputValue.Notificacao.AddNotificacao(Guid.NewGuid().ToString(), "Usuário não encotrado.");
+            return await Task.FromResult(outputValue);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<PessoaOutput<Pessoa>> Update(string id, Pessoa pessoa)
+        {
+            var outputValue = new PessoaOutput<Pessoa>();
+
+            if (!Guid.TryParse(id, out Guid idByuser))
+            {
+                outputValue.Notificacao.AddNotificacao(Guid.NewGuid().ToString(), "Id com o formato inválido.");
+                return await Task.FromResult(outputValue);
+            }
+
+            var updated = _service.Update(idByuser, pessoa);
+
+            if (updated is not null)
+            {
+                outputValue.Data = updated;
+                return await Task.FromResult(outputValue);
+            }
+
+            outputValue.Notificacao.AddNotificacao(Guid.NewGuid().ToString(), "Usuário não encotrado.");
+            return await Task.FromResult(outputValue);
+        }
     }
 }

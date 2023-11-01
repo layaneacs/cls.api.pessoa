@@ -54,5 +54,39 @@ namespace cls.api.pessoa.tests.controller
             Assert.NotNull(result.Data);
         }
 
+        [Fact]
+        public void QuandoDeletePorIdValido_EntaoOutputDeveRetornarSemNotificacaoEDataNaoNulo()
+        {
+            var idValid = Guid.NewGuid();
+
+            dataService
+                .Setup(x => x.Delete(idValid))
+                .Returns(() => true);
+
+            var controller = new PessoaController(dataService.Object);
+
+            var result = controller.Delete(idValid.ToString()).Result;
+
+            Assert.False(result.Notificacao.HasNotificacao);
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public void QuandoUpdatePorIdValido_EntaoOutputDeveRetornarSemNotificacaoEDataNaoNulo()
+        {
+            var idValid = Guid.NewGuid();
+
+            dataService
+                .Setup(x => x.Update(idValid, It.IsAny<Pessoa>()))
+                .Returns(() => new Pessoa());
+
+            var controller = new PessoaController(dataService.Object);
+
+            var result = controller.Update(idValid.ToString(), It.IsAny<Pessoa>()).Result;
+
+            Assert.False(result.Notificacao.HasNotificacao);
+            Assert.NotNull(result.Data);
+        }
+
     }
 }

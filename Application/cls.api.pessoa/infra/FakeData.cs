@@ -34,6 +34,32 @@ namespace cls.api.pessoa.infra
         {
             return pessoas.FirstOrDefault(p => p.Id == id);
         }
+        public Pessoa? Update(Guid id, Pessoa pessoa)
+        {
+            var toUpdate = pessoas.FirstOrDefault(p => p.Id == id);
+            if(toUpdate is not null)
+            {
+                toUpdate.DataNascimento = pessoa.DataNascimento;
+                toUpdate.Email = pessoa.Email;
+                toUpdate.Telefone = pessoa.Telefone;
+                toUpdate.Nome = pessoa.Nome;
+                toUpdate.Sobrenome = pessoa.Sobrenome;
+                return toUpdate;
+            }
+
+            return null;
+        }
+
+        public bool Delete(Guid id)
+        {
+            var toDelete = pessoas.FirstOrDefault(p => p.Id == id);
+            if (toDelete != null)
+            {
+                pessoas.Remove(toDelete);
+                return true;
+            }
+            return false;
+        }
 
         public Pessoa? GetBy(string email)
         {
