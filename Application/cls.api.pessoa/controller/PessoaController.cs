@@ -29,9 +29,9 @@ namespace cls.api.pessoa.controller
         {
             var outputValue = new PessoaOutput<Pessoa>();
 
-            var pessoaCreated = _service?.Save(pessoa) ?? new();
+            var pessoaCreated = _service?.Save(pessoa);
 
-            if (pessoaCreated.Nome is not null)
+            if (pessoaCreated is not null)
             {
                 outputValue.Data = pessoaCreated;
                 return await Task.FromResult(outputValue);
