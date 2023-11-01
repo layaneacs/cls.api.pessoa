@@ -4,15 +4,14 @@ using cls.api.pessoa.infra;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IDataService, FakeData>();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
-
-
-
-app.MapGet("/", () =>
+app.UseRouting();
+app.UseEndpoints(endpoints =>
 {
-    var pessoas = app.Services.GetService<IDataService>();
-    return pessoas?.GetAll();
+    endpoints.MapControllers();
 });
 
 app.Run();
