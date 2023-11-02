@@ -21,9 +21,15 @@ namespace cls.api.pessoa.infra
             _pessoas = db.GetCollection<Pessoa>(nameof(Pessoa));
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Pessoa>.Filter.Eq(x => x.Id, id);
+            var exist = await _pessoas.DeleteOneAsync(filter);
+            if (exist.DeletedCount > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<List<Pessoa>> GetAll()
@@ -33,14 +39,28 @@ namespace cls.api.pessoa.infra
             return all;
         }
 
-        public Pessoa? GetBy(Guid id)
+        public async Task<Pessoa?> GetBy(Guid id)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Pessoa>.Filter.Eq(x => x.Id, id);
+            var exist = await _pessoas.Find(filter).ToListAsync();
+            if (exist.Any())
+            {
+                var resposta = exist.FirstOrDefault();
+                return resposta;
+            }
+            return null;
         }
 
-        public Pessoa? GetBy(string email)
+        public async Task<Pessoa?> GetBy(string email)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Pessoa>.Filter.Eq(x => x.Email, email);
+            var exist = await _pessoas.Find(filter).ToListAsync();
+            if (exist.Any())
+            {
+                var resposta = exist.FirstOrDefault();
+                return resposta;
+            }
+            return null;
         }
 
         public async Task<Pessoa?> Save(Pessoa pessoa)
@@ -63,9 +83,22 @@ namespace cls.api.pessoa.infra
             }
         }
 
-        public Pessoa? Update(Guid id, Pessoa pessoa)
+        public async Task<Pessoa?> Update(Guid id, Pessoa pessoa)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Pessoa>.Filter.Eq(x => x.Id, id);
+            var update = Builders<Pessoa>.Update
+                .Set(x => x.Email, pessoa.Email)
+                .Set(x => x.DataNascimento, pessoa.DataNascimento)
+                .Set(x => x.Nome, pessoa.Nome)
+                .Set(x => x.Sobrenome, pessoa.Sobrenome)
+                .Set(x => x.Telefone, pessoa.Telefone);
+
+            var resposta = await _pessoas.UpdateOneAsync(filter, update);
+            if (resposta?.ModifiedCount > 0)
+            {
+                return pessoa;
+            }
+            return null;
         }
     }
 }

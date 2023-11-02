@@ -53,7 +53,7 @@ namespace cls.api.pessoa.controller
                 return await Task.FromResult(outputValue);
             }
 
-            var pessoa = _service?.GetBy(idByuser);
+            var pessoa = await _service.GetBy(idByuser);
 
             if (pessoa is not null)
             {
@@ -77,7 +77,7 @@ namespace cls.api.pessoa.controller
                 return await Task.FromResult(outputValue);
             }
 
-            var deleted = _service.Delete(idByuser);
+            var deleted = await _service.Delete(idByuser);
 
             if (deleted)
             {
@@ -101,7 +101,7 @@ namespace cls.api.pessoa.controller
                 return await Task.FromResult(outputValue);
             }
 
-            var updated = _service.Update(idByuser, pessoa);
+            var updated = await _service.Update(idByuser, pessoa);
 
             if (updated is not null)
             {

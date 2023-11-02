@@ -5,10 +5,10 @@ namespace cls.api.pessoa.core.interfaces
     public interface IDataService
     {
         public Task<Pessoa?> Save(Pessoa pessoa);
-        public Pessoa? GetBy(Guid id);
-        public Pessoa? Update(Guid id, Pessoa pessoa);
-        public bool Delete(Guid id);
-        public Pessoa? GetBy(string email);
+        public Task<Pessoa?> GetBy(Guid id);
+        public Task<Pessoa?> Update(Guid id, Pessoa pessoa);
+        public Task<bool> Delete(Guid id);
+        public Task<Pessoa?> GetBy(string email);
         public Task<List<Pessoa>> GetAll();
     }
 }
