@@ -19,7 +19,7 @@ namespace cls.api.pessoa.controller
         {
             var outputValue = new PessoaOutput<List<Pessoa>>();
 
-            var lista = _service?.GetAll() ?? new();
+            var lista = await _service.GetAll() ?? new();
             outputValue.Data = lista;
             return await Task.FromResult(outputValue);
         }
@@ -29,7 +29,7 @@ namespace cls.api.pessoa.controller
         {
             var outputValue = new PessoaOutput<Pessoa>();
 
-            var pessoaCreated = _service?.Save(pessoa);
+            var pessoaCreated = await _service.Save(pessoa);
 
             if (pessoaCreated is not null)
             {

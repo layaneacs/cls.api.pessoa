@@ -3,7 +3,7 @@ using cls.api.pessoa.core.model;
 
 namespace cls.api.pessoa.infra
 {
-    public class FakeData : IDataService
+    public class FakeData //: IDataService
     {
         private static List<Pessoa> pessoas = new List<Pessoa>()
         {
