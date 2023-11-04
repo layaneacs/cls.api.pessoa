@@ -14,7 +14,7 @@ namespace cls.api.pessoa.tests.controller
         {  
             dataService
                 .Setup(x => x.Save(It.IsAny<Pessoa>()))
-                .Returns(() => null);
+                .ReturnsAsync(() => null);
 
             var controller = new PessoaController(dataService.Object);
 
@@ -28,7 +28,7 @@ namespace cls.api.pessoa.tests.controller
         {
             dataService
                 .Setup(x => x.Save(It.IsAny<Pessoa>()))
-                .Returns(() => new Pessoa());
+                .ReturnsAsync(() => new Pessoa());
 
             var controller = new PessoaController(dataService.Object);
 
@@ -44,7 +44,7 @@ namespace cls.api.pessoa.tests.controller
 
             dataService
                 .Setup(x => x.GetBy(idValid))
-                .Returns(() => new Pessoa());
+                .ReturnsAsync(() => new Pessoa());
 
             var controller = new PessoaController(dataService.Object);
 
@@ -61,7 +61,7 @@ namespace cls.api.pessoa.tests.controller
 
             dataService
                 .Setup(x => x.Delete(idValid))
-                .Returns(() => true);
+                .ReturnsAsync(() => true);
 
             var controller = new PessoaController(dataService.Object);
 
@@ -78,7 +78,7 @@ namespace cls.api.pessoa.tests.controller
 
             dataService
                 .Setup(x => x.Update(idValid, It.IsAny<Pessoa>()))
-                .Returns(() => new Pessoa());
+                .ReturnsAsync(() => new Pessoa());
 
             var controller = new PessoaController(dataService.Object);
 

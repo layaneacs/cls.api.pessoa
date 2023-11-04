@@ -1,8 +1,14 @@
 using cls.api.pessoa.core.interfaces;
 using cls.api.pessoa.infra;
+using cls.api.pessoa.infra.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<IDataService, FakeData>();
+
+var mongoSettings = builder.Configuration.GetSection("MongoSettings");
+
+builder.Services.Configure<MongoSettings>(mongoSettings);
+builder.Services.AddSingleton<IDataService, DbMongoData>();
+
 
 builder.Services.AddControllers();
 
