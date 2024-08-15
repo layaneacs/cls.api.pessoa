@@ -11,16 +11,16 @@
 
         public Pessoa(string nome, string sobrenome, string email, string telefone, DateTime dataNascimento)
         {
-            Id= Guid.NewGuid();
-            Nome= nome;
-            Sobrenome= sobrenome;
+            Id = Guid.NewGuid();
+            Nome = nome;
+            Sobrenome = sobrenome;
             Email = email;
-            Telefone= telefone;
-            DataNascimento= dataNascimento;            
+            Telefone = telefone;
+            DataNascimento = dataNascimento;
         }
         public Pessoa()
         {
             Id = Guid.NewGuid();
-        }        
+        }
     }
 }

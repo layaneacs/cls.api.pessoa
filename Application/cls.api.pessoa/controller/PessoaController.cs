@@ -11,13 +11,31 @@ namespace cls.api.pessoa.controller
         private readonly IDataService _service;
         public PessoaController(IDataService service)
         {
-            _service= service;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<PessoaOutput<List<Pessoa>>> Get()
+        public async Task<PessoaOutput<List<Pessoa>>> Get(
+            [FromQuery] string? email,
+            [FromQuery] string? id)
         {
             var outputValue = new PessoaOutput<List<Pessoa>>();
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                var user = await this.Get(id);
+                var output = user.Data ?? new();
+                outputValue.Data = new List<Pessoa>() { output };
+                return await Task.FromResult(outputValue);
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await this.GetByEmail(email);
+                var output = user.Data ?? new();
+                outputValue.Data = new List<Pessoa>() { output };
+                return await Task.FromResult(outputValue);
+            }
 
             var lista = await _service.GetAll() ?? new();
             outputValue.Data = lista;
@@ -41,9 +59,7 @@ namespace cls.api.pessoa.controller
             return await Task.FromResult(outputValue);
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public async Task<PessoaOutput<Pessoa>> Get(string id)
+        internal async Task<PessoaOutput<Pessoa>> Get(string id)
         {
             var outputValue = new PessoaOutput<Pessoa>();
 
@@ -54,6 +70,22 @@ namespace cls.api.pessoa.controller
             }
 
             var pessoa = await _service.GetBy(idByuser);
+
+            if (pessoa is not null)
+            {
+                outputValue.Data = pessoa;
+                return await Task.FromResult(outputValue);
+            }
+
+            outputValue.Notificacao.AddNotificacao(Guid.NewGuid().ToString(), "Usuário não encotrado.");
+            return await Task.FromResult(outputValue);
+        }
+
+        internal async Task<PessoaOutput<Pessoa>> GetByEmail(string email)
+        {
+            var outputValue = new PessoaOutput<Pessoa>();
+
+            var pessoa = await _service.GetBy(email);
 
             if (pessoa is not null)
             {
